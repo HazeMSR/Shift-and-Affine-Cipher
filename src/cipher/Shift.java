@@ -8,9 +8,9 @@ public class Shift {
     int abc_len=26;                          //Length of the alphabet
 
     //Gets the position of a character at the selected alphabet
-    public int getPosition(char k, String alphab){
-        int i=0;
-        for( i = 0; i < abc_len ; i++ )
+    public static int getPosition(char k, String alphab){
+        int i=0,n=alphab.length();
+        for( i = 0; i < n ; i++ )
             if( k == alphab.charAt(i))
                 return i;
         return i-1;
@@ -69,13 +69,14 @@ public class Shift {
     //This is the encrypt algorithm
     public String encryptText(String cad,boolean filter){
         String ret="";
-        int i=0;
+        int i=0,j=0;
         char aux;
         for( i = 0 ; i < cad.length() ; i++){ //Go through the changed alphabet and compare the position of the character of the text to be encrypted with the base alphabet to obtain the new character
             aux=cad.charAt(i);
             if (Character.isLetter(aux)){
+                j++;
                 ret += changed_abc.charAt(getPosition(aux,abc));
-                if(filter==true && i+1%4==0)
+                if(filter==true && j%4==0)
                     ret+=" ";
             }
             else{
@@ -99,4 +100,5 @@ public class Shift {
         }
         return ret;
     }
+
 }

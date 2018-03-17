@@ -22,4 +22,16 @@ public class Validate {
         }
         return true;
     }
+    //Return if the character belong to the alphabet
+    public static boolean belongsToTheAlphabet(char c,String alphab){ 
+        boolean ret=false;
+        int i = 0 , n = alphab.length();
+
+        //Go through the base alphabet and compare the position of the character and returns true or false
+        for( i = 0 ; i < n && ret == false ; i++ ){
+            if( c == alphab.charAt(i) )
+                ret=true;
+        }
+        return ret;
+    }
 }

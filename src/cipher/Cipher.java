@@ -19,7 +19,6 @@ public class Cipher {
         Object [] ShiftMenu= {"1. Change key","2. Encrypt file","3. Decrypt file","4. Return to the main menu","5. Exit"};
         
         Shift sh = new Shift();
-        System.out.println("\u00e1");
         do{ //While for the main menu
             do{
                 opc1=Ventanas.seleccionS(MainMenu,"Select one option:", "Affine and Shift Cipher.",v1);
@@ -31,9 +30,19 @@ public class Cipher {
             		}while(v2==true);
 
             		if( opc2 == "1. Encrypt file" ){
-            			n = Ventanas.entradaI("Enter the value of n");
+            			do {
+            				n = Ventanas.entradaI("Enter the value of n");
+            				if( n < 1 || n > 52)
+            					Ventanas.mensaje("The value must be between 1 and 52. Try Again");
+            				else{
+            					if(Affine.aux_abc.length() > 1)
+            						Affine.aux_abc="";
+            					Affine.setABCLength(n);
+            					Ventanas.mensaje("Your alphabet will be:\n"+Affine.aux_abc);
+            				}
+            			}while(n < 1 || n > 52);
+            			
 	                    a = Ventanas.entradaI("Enter the value of a");
-	
 	                    a1 = Affine.verA(a, n);
 	                    while (a1 == 0) {
 	                        Ventanas.mensaje("The value " + a + " it is not allowed, try again.");
@@ -50,21 +59,18 @@ public class Cipher {
        					         System.out.println("Error: "+readRet[0]);
        					     }              
        					}while(readRet[0].length()>1);
-       					message = readRet[1];
-                                   	
-         
+       					message = readRet[1].toLowerCase();
+                                   
        					          
 	                    String cifMessage = "";
 	                    for ( i = 0; i < message.length(); i++) {
 	                        char letra = message.charAt(i);
 	                        char cifLetra = Affine.cifrar(n, a, b, letra);
-	                        if (letra == 32) {
-	                            cifMessage = cifMessage + " ";
-	                        } else {
-	                            cifMessage = cifMessage + Character.toString(cifLetra);
-	                        }
+	                            
+	                            cifMessage += cifLetra;
 	                    }
                             System.out.println(cifMessage);
+                            
                             writeRet = Files.writeFile(text,"\n"+cifMessage);
                             if(writeRet.length()>1){
                                     Ventanas.mensaje("An error occurred writing your file. Try again.");
@@ -74,7 +80,17 @@ public class Cipher {
                                 Ventanas.mensaje("Your file was sucessfully encrypt.");
 	            	}
 	            	if( opc2 == "2. Decrypt file" ){
-	                    n = Ventanas.entradaI("Enter the value of n");
+            			do {
+            				n = Ventanas.entradaI("Enter the value of n");
+            				if( n < 1 || n > 52)
+            					Ventanas.mensaje("The value must be between 1 and 52. Try Again");
+            				else{
+            					if(Affine.aux_abc.length() > 1)
+            						Affine.aux_abc="";
+            					Affine.setABCLength(n);
+            					Ventanas.mensaje("Your alphabet will be:\n"+Affine.aux_abc);
+            				}
+            			}while(n < 1 || n > 52);
 	                    a = Ventanas.entradaI("Enter the value of a");
 	
 	                    a1 = Affine.verA(a, n);
@@ -94,17 +110,14 @@ public class Cipher {
        					         System.out.println("Error= "+readRet[0]);
        					     }              
        					}while(readRet[0].length()>1);
-       					message = readRet[1];
+       					message = readRet[1].toLowerCase();
 
 	                    String descifMessage = "";
 	                    for ( i = 0; i < message.length(); i++) {
 	                        char letra = message.charAt(i);
 	                        char decifLetra = Affine.descifrar(n, a1, b, letra);
-	                        if (letra == 32) {
-	                            descifMessage = descifMessage + " ";
-	                        } else {
-	                            descifMessage = descifMessage + Character.toString(decifLetra);
-	                        }
+
+	                            descifMessage += decifLetra;
 	                    }
                             System.out.println(descifMessage);
 	                    writeRet = Files.writeFile(text,descifMessage);
